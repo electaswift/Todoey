@@ -15,7 +15,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    let itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
+    var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
     
     //MARK - Tableview Datasource Methods
     
@@ -51,6 +51,37 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
     }
     
+    //MARK - Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {  //20
+        
+        var textField = UITextField()     //27
+        
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert) //22
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in   //23
+           // print("Success") 23
+         
+            self.itemArray.append(textField.text!)   //28
+            
+            self.tableView.reloadData()  //29
+           
+            }
+
+        
+        
+        alert.addTextField { (alertTextField) in      //it knows the parameter type is that of textfield 26
+            alertTextField.placeholder = "Create New Item"
+            textField = alertTextField
+            
+        }
+        
+        alert.addAction(action)  //24
+        
+     present(alert, animated: true, completion: nil)  //25
+        
+        
+    }
     
     
     
