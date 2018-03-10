@@ -43,7 +43,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             }else {
-           tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark   //15
+           tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark   //15. 16 on notes. 
             }
         
         tableView.deselectRow(at: indexPath, animated: true)   //14 back on notes
