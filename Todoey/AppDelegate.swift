@@ -16,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //first thing to load for app
+        
+        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)  //32 just for her to show us. open up the mac finder. mac hd, users, your name, library, developer, coresimulator, devices, search for whatever shit appears which is the UUID/device ID, data, containers, data, application, search for app UID which is the unique todoey app id, documents, library, preferences, then you get to the plist. 33 back on todolistvc
+        
         return true
     }
 
@@ -27,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        //this happens when your app disappears from the screen
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -39,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
+        //when app gets terminated. they press home button and click on different app. so ram used up. 
     }
 
 

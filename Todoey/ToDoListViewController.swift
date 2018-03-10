@@ -10,12 +10,20 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {             //5. 6 is to change name of this vc to "ToDoListViewController"  7 is on notes
 
+   
+
+    var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
+    
+    let defaults = UserDefaults.standard   //30
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {   //33 using if let cause if defaults.array has no key todolistarray, then app crashes
+            itemArray = items
+        }
     }
-
-    var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
     
     //MARK - Tableview Datasource Methods
     
@@ -63,6 +71,8 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
            // print("Success") 23
          
             self.itemArray.append(textField.text!)   //28
+            
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")   //31  everything you save to defaults gets saved to a plist file so you always need a key to retrieve the item. in order to access the defaults, you need file path of our sandbox that our app runs, we need the IDof the simulator and the ID of the sandbox where our app lives in. 32 is on appdelegate
             
             self.tableView.reloadData()  //29
            
