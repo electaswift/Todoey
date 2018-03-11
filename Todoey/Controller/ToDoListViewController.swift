@@ -15,13 +15,16 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     //var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
     var itemArray = [Item]()    //array of item objects  36
     
-    let defaults = UserDefaults.standard   //30
+   // let defaults = UserDefaults.standard   //30
+    
+      let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") //54
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        let newItem = Item()    //35
+
+    /*let newItem = Item()    //35
         newItem.title = "Find Mike"
         itemArray.append(newItem) //37
         
@@ -31,11 +34,15 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
         let newItem3 = Item()    //39
         newItem3.title = "Destroy Demogorgon"
-        itemArray.append(newItem3)
+        itemArray.append(newItem3) */
         
-      if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {   //33 using if let cause if defaults.array has no key todolistarray, then app crashes.  34 is creating a new class. file new file, new swift file.    53 is uncommenting this code out
-      itemArray = items
-      }
+        loadItems()  //63 take the above out. 64 on item class 
+        
+        
+        
+     // if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {   //33 using if let cause if defaults.array has no key todolistarray, then app crashes.  34 is creating a new class. file new file, new swift file.    53 is uncommenting this code out.  the app will crash cause we are trying to user userdefaults by putting in our own custom made objects in an array as the value which is beyonod the scope of user defaults.
+    //  itemArray = items
+  //    }
     }
     
     //MARK - Tableview Datasource Methods
@@ -97,7 +104,9 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
             itemArray[indexPath.row].done = false
         }  */
         
-        tableView.reloadData() //46 forces the tableview to call its datasource methods again so that it reloads the data meant to be inside
+        saveItems() //60 and get rid of the below
+        
+        //tableView.reloadData() //46 forces the tableview to call its datasource methods again so that it reloads the data meant to be inside
             
    //     if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
     //        tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -129,10 +138,22 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
             //self.itemArray.append(textField.text!)
             self.itemArray.append(newItem)  //43
             
-            self.defaults.set(self.itemArray, forKey: "ToDoListArray")   //31  everything you save to defaults gets saved to a plist file so you always need a key to retrieve the item. in order to access the defaults, you need file path of our sandbox that our app runs, we need the IDof the simulator and the ID of the sandbox where our app lives in. 32 is on appdelegate
+          /*  let encoder = PropertyListEncoder()
+            
+            do {
+            
+            let data = try encoder.encode(self.itemArray) //55   //data is whatever was returned by the method encode i think. 56 is on item 
+                try data.write(to: self.dataFilePath!)
+            } catch {
+                print("Error encoding item array, \(error)")
+            }
+            
+        //    self.defaults.set(self.itemArray, forKey: "ToDoListArray")   //31  everything you save to defaults gets saved to a plist file so you always need a key to retrieve the item. in order to access the defaults, you need file path of our sandbox that our app runs, we need the IDof the simulator and the ID of the sandbox where our app lives in. 32 is on appdelegate
             
             self.tableView.reloadData()  //29
-           
+           */
+            
+            self.saveItems()  //61 instead of the above made it into a function at the bottom
             }
 
         
@@ -150,14 +171,36 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
     }
     
+    //MARK - Model Manipulation Methods
     
+    func saveItems () {   //59
+        let encoder = PropertyListEncoder()
+        
+        do {
+            
+            let data = try encoder.encode(itemArray)    //data is whatever was returned by the method encode i think. 56 
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("Error encoding item array, \(error)")
+        }
+        
+        self.tableView.reloadData()
+    }
     
-    
+    func loadItems() {   //62
+        if let data = try? Data(contentsOf: dataFilePath!) {
+        let decoder = PropertyListDecoder()
+        do {
+        itemArray = try decoder.decode([Item].self, from: data)  //[Item].self because its referring to the type, not a specific object
+        } catch {
+            print("Error decoding item array, \(error)")
+     }
+    }
     
     
     
     }
 
-
+}
 
 
