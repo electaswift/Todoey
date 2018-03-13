@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData  //85
 
 class ToDoListViewController: UITableViewController {             //5. 6 is to change name of this vc to "ToDoListViewController"  7 is on notes
 
@@ -17,12 +18,15 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     
    // let defaults = UserDefaults.standard   //30
     
-      let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") //54
+   //   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist") //54
     
+     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext   //82 we need to call appdelegate.persistentcontainer.viewcontext but appdelegate is a class, not an object. so to get the object we need to use singleton object. shared UI application refers to live application object. the AppDelegate is the singleton object's delegate.
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")) //87 run this so you can see the file general area. users/bryan/Library/Developer/CoreSimulator/Devices/F6/data/Containers/Data/Application/20E/Library/Application Support/ DataModel.sqlite.  88 is on notes
 
     /*let newItem = Item()    //35
         newItem.title = "Find Mike"
@@ -36,7 +40,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         newItem3.title = "Destroy Demogorgon"
         itemArray.append(newItem3) */
         
-        loadItems()  //63 take the above out. 64 on item class 
+       loadItems()  //63 take the above out. 64 on item class   //90
         
         
         
@@ -96,6 +100,9 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(itemArray[indexPath.row])
         
+        //  context.delete(itemArray[indexPath.row])  //91   need this step so it removes it from context object and not just our object array
+      //  itemArray.remove(at: indexPath.row)    //92   these two used if you want to delete items. rmbr that the order matters. 93 is on notes
+      
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done    //47 better way to put it than 44
         
        /* if itemArray[indexPath.row].done == false {      //44
@@ -132,8 +139,11 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
          
             //self.itemArray.append(textField.text!)   //28
             
-            let newItem = Item()      //41
+           // let newItem = Item()      //41
+            
+            let newItem = Item(context: self.context)    //83
             newItem.title = textField.text!   //42
+            newItem.done = false //86 this is nec cause our coredata attribute of bool is not optional. so it will crash if you dont have this
             
             //self.itemArray.append(textField.text!)
             self.itemArray.append(newItem)  //43
@@ -174,20 +184,23 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     //MARK - Model Manipulation Methods
     
     func saveItems () {   //59
-        let encoder = PropertyListEncoder()
+       // let encoder = PropertyListEncoder()
         
         do {
+
+           try context.save()  //84
             
-            let data = try encoder.encode(itemArray)    //data is whatever was returned by the method encode i think. 56 
-            try data.write(to: dataFilePath!)
+          //  let data = try encoder.encode(itemArray)    //data is whatever was returned by the method encode i think. 56
+          //  try data.write(to: dataFilePath!)
         } catch {
-            print("Error encoding item array, \(error)")
+            print("Error saving context \(error)")
+          //  print("Error encoding item array, \(error)")
         }
         
         self.tableView.reloadData()
     }
     
-    func loadItems() {   //62
+  /*  func loadItems() {   //62
         if let data = try? Data(contentsOf: dataFilePath!) {
         let decoder = PropertyListDecoder()
         do {
@@ -196,10 +209,23 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
             print("Error decoding item array, \(error)")
      }
     }
+
+    } */
     
-    
-    
+    func loadItems() {    //89
+        
+        let request : NSFetchRequest<Item> = Item.fetchRequest()   //one of few times you have to declare type. <Item> returns an array of item objects
+        
+        do {
+           itemArray = try context.fetch(request)     //telling the intermediary context to go fetch request, which is to open up item object and fetch
+        } catch {
+            print("Failed to fetch request")
+        }
+   
     }
+    
+    
+    
 
 }
 
