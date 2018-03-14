@@ -262,7 +262,7 @@ extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way 
      //   request.sortDescriptors = [sortDescriptor]   //can take in multiple rules of sortdescriptors in an array but in this case, we only have one rule. to sort by title
         
         //loadItems(with: request, predicate: predicate)   //139
-        loadItems(with: request, predicate: predicate)  //145
+        loadItems(with: request, predicate: predicate)  //145. 146 on notes
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    //99. 100 is on notes
