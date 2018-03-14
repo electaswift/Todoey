@@ -14,8 +14,13 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
 
 
     //var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
-    var itemArray = [Item]()    //array of item objects  36
+    var itemArray = [Item]() //array of item objects  36
     
+    var selectedCategory : Category? { //135 everything in between didSet will trigger once it has a value
+    didSet{
+        loadItems()
+    }  
+    }
     
    // let defaults = UserDefaults.standard   //30
     
@@ -41,7 +46,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         newItem3.title = "Destroy Demogorgon"
         itemArray.append(newItem3) */
         
-       loadItems()  //63 take the above out. 64 on item class   //90
+      // loadItems()  //63 take the above out. 64 on item class   //90
         
         
         
@@ -145,6 +150,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
             let newItem = Item(context: self.context)    //83
             newItem.title = textField.text!   //42
             newItem.done = false //86 this is nec cause our coredata attribute of bool is not optional. so it will crash if you dont have this
+            newItem.parentCategory = self.selectedCategory      //136
             
             //self.itemArray.append(textField.text!)
             self.itemArray.append(newItem)  //43
@@ -215,9 +221,19 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
 
     } */
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {    //89
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {    //89, 138 add predicate parameter, 143
         
-       let request : NSFetchRequest<Item> = Item.fetchRequest()   //one of few times you have to declare type. <Item> returns an array of item objects
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)  //136 within the fetchrequest, does the parentcategory.name match the selectedcategory.name
+        
+        if let additionalPredicate = predicate {  //142   if the predicate from searchbarbuttonclicked load has a value, then make it equal to additionalpredicate and use it below
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate]) //compound predicates return an array of both of those predicate searches
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
+       // let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate])   //140
+        
+       // request.predicate = compoundPredicate  //137, 141
         
         do {
            itemArray = try context.fetch(request)     //telling the intermediary context to go fetch request, which is to open up item object and fetch
@@ -237,13 +253,16 @@ extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {  //98
         let request : NSFetchRequest<Item> = Item.fetchRequest()
         
-       request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)  //the cd makes it insensitive to some diacretic sensitive shit
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)      //144
         
-       request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]  //will return all item objects that have title key.
+     //  request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)  //the cd makes it insensitive to some diacretic sensitive shit  98
+        
+       request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]  //will return all item objects that have title key.  98
         
      //   request.sortDescriptors = [sortDescriptor]   //can take in multiple rules of sortdescriptors in an array but in this case, we only have one rule. to sort by title
         
-    loadItems(with: request)
+        //loadItems(with: request, predicate: predicate)   //139
+        loadItems(with: request, predicate: predicate)  //145
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    //99. 100 is on notes
