@@ -9,12 +9,13 @@
 import UIKit
 import CoreData  //85
 
-class ToDoListViewController: UITableViewController {             //5. 6 is to change name of this vc to "ToDoListViewController"  7 is on notes
+class ToDoListViewController: UITableViewController {             //5. 6 is to change name of this vc to "ToDoListViewController"  7 is on notes. 94. 95 is on notes
 
-   
+
 
     //var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
     var itemArray = [Item]()    //array of item objects  36
+    
     
    // let defaults = UserDefaults.standard   //30
     
@@ -49,7 +50,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
   //    }
     }
     
-    //MARK - Tableview Datasource Methods
+    //MARK: - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  //12
         return itemArray.count
@@ -95,7 +96,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     return cell
     }
     
-    //MARK - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(itemArray[indexPath.row])
@@ -126,7 +127,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
     }
     
-    //MARK - Add New Items
+    //MARK: - Add New Items
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {  //20
         
@@ -181,7 +182,8 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
     }
     
-    //MARK - Model Manipulation Methods
+
+    //MARK: - Model Manipulation Methods
     
     func saveItems () {   //59
        // let encoder = PropertyListEncoder()
@@ -212,21 +214,63 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
 
     } */
     
-    func loadItems() {    //89
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {    //89
         
-        let request : NSFetchRequest<Item> = Item.fetchRequest()   //one of few times you have to declare type. <Item> returns an array of item objects
+       let request : NSFetchRequest<Item> = Item.fetchRequest()   //one of few times you have to declare type. <Item> returns an array of item objects
         
         do {
            itemArray = try context.fetch(request)     //telling the intermediary context to go fetch request, which is to open up item object and fetch
         } catch {
             print("Failed to fetch request")
         }
+        
+        tableView.reloadData()
    
     }
     
-    
-    
 
 }
+
+extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way to split the vc according to diff functionalities
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {  //98
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+       request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)  //the cd makes it insensitive to some diacretic sensitive shit
+        
+       request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]  //will return all item objects that have title key.
+        
+     //   request.sortDescriptors = [sortDescriptor]   //can take in multiple rules of sortdescriptors in an array but in this case, we only have one rule. to sort by title
+        
+    loadItems(with: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    //99
+        if searchBar.text?.count == 0 {
+        loadItems()
+           
+            DispatchQueue.main.async {       //the shit that decides priorities. telling it to go to main and do this code in the main
+                 searchBar.resignFirstResponder()   //go to the original state you were in before you were activated
+            }
+           
+        } else {
+            print("boomshaka")
+        }
+    }
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
