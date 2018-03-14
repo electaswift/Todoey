@@ -170,8 +170,9 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
         
         alert.addTextField { (alertTextField) in      //it knows the parameter type is that of textfield 26
+             textField = alertTextField
             alertTextField.placeholder = "Create New Item"
-            textField = alertTextField
+           
             
         }
         
@@ -245,7 +246,7 @@ extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way 
     loadItems(with: request)
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    //99
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {    //99. 100 is on notes
         if searchBar.text?.count == 0 {
         loadItems()
            
