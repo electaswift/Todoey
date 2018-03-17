@@ -14,7 +14,7 @@ class CategoryViewController: UITableViewController {
     
     let realm = try! Realm()    //172 can force unwrap cause apparently its safe 
     
-    var categories = [Category]()  //113
+    var categories = [Category2]()  //113
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext //114
 
@@ -56,9 +56,11 @@ class CategoryViewController: UITableViewController {
     
     //MARK: - Data Manipulation Methods
     
-    func saveCategories() {    //128
+    func save(category: Category2) {    //128   //174
         do {
-        try context.save()
+            try realm.write {   //175
+                realm.add(category)
+            }
         } catch {
             print("Error saving category \(error)")
     }
@@ -66,14 +68,14 @@ class CategoryViewController: UITableViewController {
     }
         
     func loadCategories() {
-        let request : NSFetchRequest<Category> = Category.fetchRequest()   //130
+    /*    let request : NSFetchRequest<Category2> = Category2.fetchRequest()   //130
         
         do {
        categories = try context.fetch(request)
         } catch {
             print("Error loading categories \(error)")
         }
-        tableView.reloadData()
+        tableView.reloadData()  */
         }
     
     //MARK: - Add New Categories
@@ -86,12 +88,15 @@ class CategoryViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in    //119
             
-        let newCategory = Category(context: self.context)  //125
+       
+            
+        (context: self.context)  //125
+            let newCategory = Category2()  //173
         newCategory.name = textField.text!    //126
         
         self.categories.append(newCategory)   //127
             
-        self.saveCategories()  //129
+            self.save(category: newCategory)  //129    176
             
         }
         

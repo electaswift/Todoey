@@ -17,9 +17,9 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     var itemArray = [Item]() //array of item objects  36
     
     //var selectedCategory : Category? { //135 everything in between didSet will trigger once it has a value
-    var selectedCategory : Category2? {    //177
+    var selectedCategory : Category2? {    //174
     didSet{
-        loadItems()
+       // loadItems()
     }  
     }
     
@@ -148,13 +148,13 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
             
            // let newItem = Item()      //41
             
-            let newItem = Item(context: self.context)    //83
+         /*   let newItem = Item(context: self.context)    //83
             newItem.title = textField.text!   //42
             newItem.done = false //86 this is nec cause our coredata attribute of bool is not optional. so it will crash if you dont have this
             newItem.parentCategory = self.selectedCategory      //136
             
             //self.itemArray.append(textField.text!)
-            self.itemArray.append(newItem)  //43
+            self.itemArray.append(newItem)  //43  */
             
           /*  let encoder = PropertyListEncoder()
             
@@ -222,7 +222,7 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
 
     } */
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {    //89, 138 add predicate parameter, 143
+  /*  func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {    //89, 138 add predicate parameter, 143
         
         let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)  //136 within the fetchrequest, does the parentcategory.name match the selectedcategory.name
         
@@ -244,12 +244,12 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
         
         tableView.reloadData()
    
-    }
+    } */
     
 
 }
 
-extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way to split the vc according to diff functionalities
+/* extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way to split the vc according to diff functionalities
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {  //98
         let request : NSFetchRequest<Item> = Item.fetchRequest()
@@ -273,17 +273,11 @@ extension ToDoListViewController: UISearchBarDelegate {  //96, 97 this is a way 
             DispatchQueue.main.async {       //the shit that decides priorities. telling it to go to main and do this code in the main
                  searchBar.resignFirstResponder()   //go to the original state you were in before you were activated
             }
-           
-        } else {
-            print("boomshaka")
         }
     }
+ 
     
-    
-}
-
-
-
+ } */
 
 
 
