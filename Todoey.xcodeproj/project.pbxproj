@@ -13,9 +13,12 @@
 		934F6EFC2050FB9F002B0048 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 934F6EFA2050FB9F002B0048 /* Main.storyboard */; };
 		934F6EFE2050FB9F002B0048 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934F6EFD2050FB9F002B0048 /* Assets.xcassets */; };
 		934F6F012050FB9F002B0048 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 934F6EFF2050FB9F002B0048 /* LaunchScreen.storyboard */; };
+		9381CDD8205C9C83009456BC /* Item2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9381CDD7205C9C83009456BC /* Item2.swift */; };
+		9381CDDA205C9CA7009456BC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9381CDD9205C9CA7009456BC /* Category.swift */; };
 		93A214BC2054C756004C2D38 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A214BB2054C756004C2D38 /* Item.swift */; };
 		93A214C320552E8B004C2D38 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 93A214C120552E8B004C2D38 /* DataModel.xcdatamodeld */; };
 		93B9A6FE2058D1D200A7DF8C /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9A6FD2058D1D200A7DF8C /* CategoryViewController.swift */; };
+		93E9BD752059745700E22AF4 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9BD742059745700E22AF4 /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +31,12 @@
 		934F6EFD2050FB9F002B0048 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		934F6F002050FB9F002B0048 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		934F6F022050FB9F002B0048 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9381CDD7205C9C83009456BC /* Item2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item2.swift; sourceTree = "<group>"; };
+		9381CDD9205C9CA7009456BC /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		93A214BB2054C756004C2D38 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		93A214C220552E8B004C2D38 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		93B9A6FD2058D1D200A7DF8C /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryViewController.swift; path = Todoey/Controller/CategoryViewController.swift; sourceTree = SOURCE_ROOT; };
+		93E9BD742059745700E22AF4 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		9418069CE34E525C2C2F13FC /* Pods-Todoey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Todoey.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Todoey/Pods-Todoey.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +88,9 @@
 			children = (
 				93A214BB2054C756004C2D38 /* Item.swift */,
 				93A214C120552E8B004C2D38 /* DataModel.xcdatamodeld */,
+				93E9BD742059745700E22AF4 /* Data.swift */,
+				9381CDD7205C9C83009456BC /* Item2.swift */,
+				9381CDD9205C9CA7009456BC /* Category.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -261,10 +270,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				93B9A6FE2058D1D200A7DF8C /* CategoryViewController.swift in Sources */,
+				93E9BD752059745700E22AF4 /* Data.swift in Sources */,
 				934F6EF92050FB9F002B0048 /* ToDoListViewController.swift in Sources */,
 				93A214C320552E8B004C2D38 /* DataModel.xcdatamodeld in Sources */,
 				93A214BC2054C756004C2D38 /* Item.swift in Sources */,
+				9381CDD8205C9C83009456BC /* Item2.swift in Sources */,
 				934F6EF72050FB9F002B0048 /* AppDelegate.swift in Sources */,
+				9381CDDA205C9CA7009456BC /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

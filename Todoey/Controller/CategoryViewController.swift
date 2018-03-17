@@ -8,8 +8,11 @@
 
 import UIKit
 import CoreData  //112
+import RealmSwift   //171
 
 class CategoryViewController: UITableViewController {
+    
+    let realm = try! Realm()    //172 can force unwrap cause apparently its safe 
     
     var categories = [Category]()  //113
     

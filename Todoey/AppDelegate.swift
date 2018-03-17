@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData //68
+import RealmSwift   //153
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)  //32 just for her to show us. open up the mac finder. mac hd, users, your name, library, developer, coresimulator, devices, search for whatever shit appears which is the UUID/device ID, data, containers, data, application, search for app UID which is the unique todoey app id, documents, library, preferences, then you get to the plist. 33 back on todolistvc
         
+        print(Realm.Configuration.defaultConfiguration.fileURL)  //162 location of realm file . hit command shift G. delete beg so that it is /Users.    163 on notes
+        
+    /*    let data = Data()  //159
+        data.name = "Bryan"
+        data.age = 27
+        */
+        
+        do {   //154. 155 on notes
+        let realm = try Realm()
+         //   try realm.write {   //160 realm.write means to commit this current state to realm database
+          //      realm.add(data)  //161 adding the data object which is a realm model object due to inheritance to realm database
+          //  }
+        } catch {
+            print("Error initializing new realm, \(error)")
+        }
+
         return true
     }
 

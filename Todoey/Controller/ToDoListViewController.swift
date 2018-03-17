@@ -16,7 +16,8 @@ class ToDoListViewController: UITableViewController {             //5. 6 is to c
     //var itemArray = ["Do Drugs", "Smoke Weed", "Take a shit"]    //11
     var itemArray = [Item]() //array of item objects  36
     
-    var selectedCategory : Category? { //135 everything in between didSet will trigger once it has a value
+    //var selectedCategory : Category? { //135 everything in between didSet will trigger once it has a value
+    var selectedCategory : Category2? {    //177
     didSet{
         loadItems()
     }  
